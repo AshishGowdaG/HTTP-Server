@@ -1,0 +1,4 @@
+build/
+server
+*.o
+.DS_Store
