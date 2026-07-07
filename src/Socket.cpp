@@ -25,7 +25,7 @@ Socket::Socket()
 }
 
 Socket::~Socket(){
-    if(sockfd!=-1) close(sockfd);
+    if(sockfd!=-1) ::close(sockfd);
 }
 
 Socket::Socket(int sockfd)
@@ -86,6 +86,24 @@ Socket Socket::accept(){
     int client = ::accept(sockfd, nullptr, nullptr);
     if(client==-1) throw std::runtime_error("Accept failed");
     return Socket(client);
+}
+
+std::string Socket::recv(size_t buffer_size){
+    std::string buffer(buffer_size, '\0');
+    ssize_t bytes = ::recv(sockfd, &buffer[0], buffer_size, 0);
+    if(bytes==-1) throw std::runtime_error("Receive failed");
+    buffer.resize(bytes);
+    return buffer;
+}
+
+void Socket::send(const std::string& data){
+    size_t sent = 0;
+    size_t total = data.size();
+    while(sent<total){
+        ssize_t bytes = ::send(sockfd, &data[0]+sent, total-sent, 0);
+        if(bytes==-1) throw std::runtime_error("Send failed");
+        sent += bytes;
+    }
 }
 
 

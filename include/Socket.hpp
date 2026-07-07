@@ -1,5 +1,8 @@
 #pragma once
 #include <cstdint>
+#include <string>
+#include <cstddef>
+#include <sys/types.h>
 
 class Socket{
     public:
@@ -37,6 +40,10 @@ class Socket{
         //blocking 
         //blocks until a valid client connects and returns a 
         //new socket
+        std::string recv(size_t buffer_size = 4096);
+        //0 means the connection is properly terminated
+        void send(const std::string& data);
+        //ssize_t is signed size_t. Allows -1 on error. (size_t>=0)
     private:
         int sockfd{-1};
 };
