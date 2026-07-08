@@ -10,6 +10,7 @@ class Request{
         const std::string& getPath() const;
         const std::string& getVersion() const;
         const std::string& getHeader(const std::string& key) const;
+        //!!!!only do this when returning existing members or objects
         //reference to string(string&) is being returned to save
         //copying time since requests can get long
         //the first const ensures that the refernce cannot be modified
