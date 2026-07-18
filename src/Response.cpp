@@ -20,6 +20,10 @@ void Response::setBody(const std::string& body){
     headers["Content-Length"] = std::to_string(body.size());
 }
 
+int Response::getStatus() const{
+    return status;
+}
+
 std::string Response::reason(int code){
     switch(code){
         case 200:
