@@ -2,3 +2,9 @@ build/
 http_server
 *.o
 .DS_Store
+.vscode/
+.idea/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+MakeFile
