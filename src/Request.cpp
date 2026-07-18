@@ -1,7 +1,9 @@
 #include "Request.hpp"
 #include <sstream>
 
-Request::Request(const std::string& request){
+Request::Request(const std::string& request)
+    : valid(true)
+{
     std::istringstream stream(request);
     //request put into a stream
     //can get individual lines now
@@ -11,7 +13,14 @@ Request::Request(const std::string& request){
     if(!line.empty() && line.back()=='\r') line.pop_back();
     //getline still includes '\r' so removing it manually
     std::istringstream line_stream(line);
-    line_stream >> method >> path >> version;
+    if(!(line_stream >> method >> path >> version)){
+        valid = false;
+        return;
+    }
+    if(version != "HTTP/1.1"){
+        valid = false;
+        return;
+    }
     //same as reading from cin(cin and cout are streams ofc)
     //so can be used to ignore whitespaces(cin ignores them!)
     while(std::getline(stream, line)){
@@ -33,6 +42,10 @@ Request::Request(const std::string& request){
 void Request::trim(std::string& s){
     while(!s.empty() && (s.front()==' '||s.front()=='\t')) s.erase(0, 1);
     while(!s.empty() && (s.back()==' '||s.back()=='\t')) s.pop_back();
+}
+
+bool Request::isValid() const{
+    return valid;
 }
 
 const std::string& Request::getMethod() const {

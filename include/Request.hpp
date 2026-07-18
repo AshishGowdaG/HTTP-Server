@@ -6,6 +6,7 @@
 class Request{
     public:
         explicit Request(const std::string& request);
+        bool isValid() const;
         const std::string& getMethod() const;
         const std::string& getPath() const;
         const std::string& getVersion() const;
@@ -20,6 +21,7 @@ class Request{
     private:
         static void trim(std::string& s);
         //static cause doesn't really use any class members
+        bool valid;
         std::string method;
         std::string path;
         std::string version;
