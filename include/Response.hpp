@@ -10,7 +10,7 @@ class Response{
         void setHeader(const std::string& key, const std::string& value);
         void setBody(const std::string& body);
         int getStatus() const;
-        std::string toString() const;
+        std::string toString(bool includeBody = true) const;
         static std::string reason(int code);
         //cannot return a refernce because it is making a new string
         //will have to make static but then static is shared across

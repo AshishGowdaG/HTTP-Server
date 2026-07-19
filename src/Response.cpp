@@ -28,6 +28,8 @@ std::string Response::reason(int code){
     switch(code){
         case 200:
             return "OK";
+        case 204:
+            return "No Content";
         case 400:
             return "Bad Request";
         case 403:
@@ -43,7 +45,7 @@ std::string Response::reason(int code){
     }
 }
 
-std::string Response::toString() const{
+std::string Response::toString(bool includeBody) const{
     std::ostringstream response;
     //output string stream
     response << version << " " << status << " " << reason(status) << "\r\n";
@@ -53,6 +55,6 @@ std::string Response::toString() const{
         response << key << ": " << value << "\r\n";
     }
     response << "\r\n";
-    response << body;
+    if(includeBody) response << body;
     return response.str();
 }

@@ -25,11 +25,20 @@ void Server::start(){
             response.setHeader("Content-Type", "text/plain");
             response.setBody("400 Bad Request");
         }
-        else if(request.getMethod() != "GET") {
+        else if(request.getMethod() != "GET" && 
+                request.getMethod() != "HEAD" &&
+                request.getMethod() != "OPTIONS"
+        ) 
+        {
             response.setStatus(405);
             response.setHeader("Allow", "GET");
             response.setHeader("Content-Type", "text/plain");
             response.setBody("405 Method Not Allowed");
+        }
+        else if(request.getMethod() == "OPTIONS"){
+            response.setStatus(204);
+            response.setHeader("Allow", "GET, HEAD, OPTIONS");
+            response.setBody("");
         }
         else{
             std::string path = request.getPath();
@@ -70,6 +79,6 @@ void Server::start(){
           << " "
           << response.reason(response.getStatus())
           << '\n';
-        client.send(response.toString());
+        client.send(response.toString(request.getMethod() != "HEAD"));
     }
 }
